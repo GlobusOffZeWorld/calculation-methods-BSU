@@ -1,7 +1,11 @@
 import math
+from pprint import pprint
 import random
+import numpy as np
+import time
 
-VARIANT_NUMBER = 2**(14 / 4)
+# VARIANT_NUMBER = 2**(14 / 4)
+VARIANT_NUMBER = 11.313708498984761
 
 
 def fill_matrix(matrix_size: int):
@@ -29,33 +33,175 @@ def fill_vector(vector_size: int):
     return vector
 
 
+def matrix_copy(matrix: list):
+    return [[matrix[i][j] for j in range(len(matrix[i]))] for i in range(len(matrix))]
+
+
 def print_matrix(matrix: list, matrix_name: str):
     print("Matrix: " + matrix_name + "{")
     for i in matrix:
         for j in i:
-            print("{0:20.16f} ".format(j), end="")
+            print("{0:8.3f} ".format(j), end="")
         print()
     print("}")
 
 
-def multiply_matrix(matrix_1, matrix_2):
-    final_vector = []
+def matrix_dot(matrix_1: list, matrix_2: list):
+    final_matrix = []
     for i in range(len(matrix_1)):
-        temp_sum = 0
-        for j in range(len(matrix_1[0])):
-            temp_sum += matrix_1[i][j] * matrix_2[j][0]
-        final_vector.append([temp_sum])
-    return final_vector
+        final_matrix.append([])
+        for j in range(len(matrix_2[i])):
+            temp_sum = 0
+            for k in range(len(matrix_1[i])):
+                temp_sum += matrix_1[i][k] * matrix_2[k][j]
+            final_matrix[i].append(temp_sum)
+    return final_matrix
+
+
+def inverse_matrix_gauss_jordan(matrix: list):
+    matrix_size = len(matrix)
+    temp_matrix = matrix_copy(matrix)
+    inverse_matrix = [[0] * matrix_size for _ in range(matrix_size)]
+
+    for i in range(matrix_size):
+        inverse_matrix[i][i] = 1
+
+    for i in range(matrix_size):
+        for j in range(i + 1, matrix_size):
+            leader_element = temp_matrix[j][i] / temp_matrix[i][i]
+            for k in range(0, matrix_size):
+                temp_matrix[j][k] -= temp_matrix[i][k] * leader_element
+                inverse_matrix[j][k] -= inverse_matrix[i][k] * leader_element
+
+    for i in range(matrix_size - 1, -1, -1):
+        for j in range(i - 1, -1, -1):
+            leader_element = temp_matrix[j][i] / temp_matrix[i][i]
+            for k in range(matrix_size - 1, -1, -1):
+                temp_matrix[j][k] -= temp_matrix[i][k] * leader_element
+                inverse_matrix[j][k] -= inverse_matrix[i][k] * leader_element
+
+    inverse_matrix = [[inverse_matrix[i][j] / temp_matrix[i][i]
+                       for j in range(matrix_size)] for i in range(matrix_size)]
+
+    return inverse_matrix
+
+
+def solve_by_gauss(matrix: list, vector: list):
+    matrix_size = len(matrix)
+    temp_matrix = matrix_copy(matrix)
+    expanded_vector = matrix_copy(vector)
+
+    for i in range(matrix_size):
+
+        column_max = temp_matrix[i][i]
+        change_row = i
+
+        for j in range(i, matrix_size):
+            if math.fabs(temp_matrix[j][i]) > math.fabs(column_max):
+                change_row = j
+                column_max = temp_matrix[j][i]
+
+        for j in range(matrix_size):
+            temp_matrix[i][j], temp_matrix[change_row][j] = temp_matrix[change_row][j], temp_matrix[i][j]
+        expanded_vector[i][0], expanded_vector[change_row][0] = expanded_vector[change_row][0], expanded_vector[i][0]
+
+        for j in range(i + 1, matrix_size):
+            leader_element = temp_matrix[j][i] / temp_matrix[i][i]
+            expanded_vector[j][0] -= expanded_vector[i][0] * leader_element
+            for k in range(0, matrix_size):
+                temp_matrix[j][k] -= temp_matrix[i][k] * leader_element
+    answer = [[0] for _ in range(matrix_size)]
+    for i in range(matrix_size - 1, -1, -1):
+        x = expanded_vector[i][0]
+        for j in range(matrix_size - 1, i, -1):
+            x -= temp_matrix[i][j] * answer[j][0]
+        x /= temp_matrix[i][i]
+        answer[i] = [x]
+    return answer
+
+
+def LUP(matrix: list, vector: list):
+    matrix_size = len(matrix)
+    temp_matrix = matrix_copy(matrix)
+    expanded_vector = matrix_copy(vector)
+    L = [[0] * matrix_size]
+
+    for i in range(matrix_size):
+        column_max = temp_matrix[i][i]
+        change_row = i
+
+        for j in range(i, matrix_size):
+            if math.fabs(temp_matrix[j][i]) > math.fabs(column_max):
+                change_row = j
+                column_max = temp_matrix[j][i]
+
+        for j in range(matrix_size):
+            temp_matrix[i][j], temp_matrix[change_row][j] = temp_matrix[change_row][j], temp_matrix[i][j]
+        expanded_vector[i][0], expanded_vector[change_row][0] = expanded_vector[change_row][0], expanded_vector[i][0]
+
+        for j in range(i + 1, matrix_size):
+            leader_element = temp_matrix[j][i] / temp_matrix[i][i]
+            expanded_vector[j][0] -= expanded_vector[i][0] * leader_element
+            for k in range(0, matrix_size):
+                temp_matrix[j][k] -= temp_matrix[i][k] * leader_element
+    answer = [[0] for _ in range(matrix_size)]
+    for i in range(matrix_size - 1, -1, -1):
+        x = expanded_vector[i][0]
+        for j in range(matrix_size - 1, i, -1):
+            x -= temp_matrix[i][j] * answer[j][0]
+        x /= temp_matrix[i][i]
+        answer[i] = [x]
+    return answer
+
+
+def cubic_norm(matrix: list):
+    norm = 0
+    for row in matrix:
+        row_sum = 0
+        for element in row:
+            row_sum += math.fabs(element)
+        if row_sum > norm:
+            norm = row_sum
+    return norm
 
 
 def main():
 
-    matrix = fill_matrix(4)
-    print_matrix(matrix, "A")
-    vector = fill_vector(4)
-    print_matrix(vector, "y")
-    final_vector = multiply_matrix(matrix, vector)
-    print_matrix(final_vector, "b")
+    matrix = fill_matrix(256)
+    # matrix = [[16.646, 11.159, -0.908, 3.579], [11.159, 29.096, 7.663, 9.274],
+    #           [-0.908, 7.663, 19.163, 9.591], [3.579, 9.274, 9.591, 23.444]]
+    vector = fill_vector(256)
+    # vector = [[-10.017], [3.737], [-5.090], [3.270]]
+    final_vector = matrix_dot(matrix, vector)
+    start_time = time.time()
+    inverse_matrix = inverse_matrix_gauss_jordan(matrix)
+    print(time.time() - start_time)
+    # matrix_condition = cubic_norm(matrix) * cubic_norm(inverse_matrix)
+    # gauss_solution = solve_by_gauss(matrix, final_vector)
+    
+    # print_matrix(matrix, "A")
+    # print_matrix(vector, "y")
+    # print_matrix(final_vector, "b")
+    # print_matrix(inverse_matrix, "Gauss-Jordan")
+    # print("Matrix A condition: {0:8.5f}".format(matrix_condition))
+    # print_matrix(gauss_solution, "Gauss")
+    # print_matrix(matrix_dot(matrix, inverse_matrix), "E")
+
 
 if __name__ == "__main__":
     main()
+
+# 16.646   11.159   -0.908    3.579
+# 11.159   29.096    7.663    9.274
+# -0.908    7.663   19.163    9.591
+# 3.579    9.274    9.591   23.444
+
+# -10.017
+# 3.737
+# -5.090
+# 3.270
+
+# -108.717
+# -11.727
+# -28.445
+# 26.650
