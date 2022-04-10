@@ -138,18 +138,19 @@ def LUP(matrix: list, vector: list):
             if math.fabs(temp_matrix[i][j]) > math.fabs(row_max):
                 change_column = j
                 row_max = temp_matrix[i][j]
-
+        print_matrix(temp_matrix, "temp1")
         for j in range(matrix_size):
             temp_matrix[j][i], temp_matrix[j][change_column] = temp_matrix[j][change_column], temp_matrix[j][i]
         P[i], P[change_column] = P[change_column], P[i]
         
+        print_matrix(temp_matrix, "temp2")
 
         for j in range(i + 1, matrix_size):
             leader_element = temp_matrix[j][i] / temp_matrix[i][i]
             expanded_vector[j][0] -= expanded_vector[i][0] * leader_element
             for k in range(0, matrix_size):
                 temp_matrix[j][k] -= temp_matrix[i][k] * leader_element
-            L[j][i] = -leader_element
+            L[j][i] = leader_element
 
     U = matrix_copy(temp_matrix)
     y = [[0] for _ in range(matrix_size)]
@@ -176,18 +177,12 @@ def LUP(matrix: list, vector: list):
 
 
     answer = [[0] for _ in range(matrix_size)]
-
-
-    for i in range(matrix_size - 1, -1, -1):
-        x = expanded_vector[i][0]
-        for j in range(matrix_size - 1, i, -1):
-            x -= temp_matrix[i][j] * answer[j][0]
-        x /= temp_matrix[i][i]
-        answer[i] = [x]
-    U = matrix_copy(temp_matrix)
-
     
-    return z
+    for i in range(matrix_size):
+        answer[P[i]] = z[i]
+
+    print(P)
+    return answer
 
 
 def cubic_norm(matrix: list):
