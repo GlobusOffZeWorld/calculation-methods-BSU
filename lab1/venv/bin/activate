@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/home/globus/FAMCS/Programming/python_development/calculation methods/lab1/venv"
+VIRTUAL_ENV="/home/globus/FAMCS/Programming/python_development/calculation methods/calculation-methods-BSU/lab1/venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

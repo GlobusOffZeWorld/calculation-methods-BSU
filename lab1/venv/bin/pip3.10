@@ -1,5 +1,5 @@
 #!/bin/sh
-'''exec' "/home/globus/FAMCS/Programming/python_development/calculation methods/lab1/venv/bin/python" "$0" "$@"
+'''exec' "/home/globus/FAMCS/Programming/python_development/calculation methods/calculation-methods-BSU/lab1/venv/bin/python" "$0" "$@"
 ' '''
 # -*- coding: utf-8 -*-
 import re
