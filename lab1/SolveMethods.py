@@ -1,4 +1,3 @@
-from ast import arg
 import math
 from Matrix import *
 
@@ -69,28 +68,9 @@ class SolveMethods:
                 L[j][i] = leader_element
 
         U = Matrix.copy(temp_matrix)
-        # y = [[0] for _ in range(matrix_size)]
-        # for i in range(matrix_size):
-        #     x = vector[i][0]
-        #     for j in range(i):
-        #         x -= L[i][j] * y[j][0]
 
-        #     y[i] = [x]
+        return (L, U, P)
 
-        # z = [[0] for _ in range(matrix_size)]
-        # for i in range(matrix_size - 1, -1, -1):
-        #     x = y[i][0]
-        #     for j in range(matrix_size - 1, i, -1):
-        #         x -= U[i][j] * z[j][0]
-        #     x /= U[i][i]
-        #     z[i] = [x]
-
-        # x_current = [[0] for _ in range(matrix_size)]
-
-        # for i in range(matrix_size):
-        #     x_current[P[i]] = z[i]
-
-        return [L, U, P]
     @staticmethod
     def solve_LUP(args: list, vector):
 # L: list, U: list, P: list, vector: list
@@ -141,7 +121,7 @@ class SolveMethods:
             for j in range(i):
                 D[i][j] = L[i][j]
                 D[j][i] = L[i][j]
-        return D
+        return (L, D)
 
     @staticmethod
     def square_method(matrix: list, vector: list):
@@ -158,7 +138,6 @@ class SolveMethods:
                 for k in range(i, matrix_size):
                     temp_matrix[j][k] -= temp_matrix[i][k] * leader_element
                 L[j][i] = leader_element
-
         G = [[0] * matrix_size for _ in range(matrix_size)]
         E = [0 for _ in range(matrix_size)]
         for i in range(matrix_size):
@@ -199,7 +178,7 @@ class SolveMethods:
         matrix_size = len(matrix)
         x_current = [[1] for _ in range(matrix_size)]
         w = 1 - 14/40
-        eps = 10 ** -8
+        eps = 10 ** -6
         x_prev = []
         iter_count = 0
         while True:
@@ -220,6 +199,6 @@ class SolveMethods:
             iter_count += 1
             if norm < eps:
                 break
-            if iter_count > 2000:
+            if iter_count > 1000:
                 break
         return x_current, iter_count

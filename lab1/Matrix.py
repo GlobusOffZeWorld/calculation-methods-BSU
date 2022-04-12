@@ -111,3 +111,10 @@ class Matrix:
     @staticmethod
     def condition(matrix: list):
         return Matrix.cubic_norm(matrix) * Matrix.cubic_norm(Matrix.inverse(matrix))
+    
+    @staticmethod
+    def vector_difference(vector_1: list, vector_2: list):
+        answer = [0 for _ in range(len(vector_1))]
+        for i in range(len(vector_1)):
+            answer[i] = [vector_1[i][0] - vector_2[i][0]]
+        return answer
