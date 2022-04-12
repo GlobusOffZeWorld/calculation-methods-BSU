@@ -13,7 +13,7 @@ class Matrix:
         output += "Matrix: " + matrix_name + "{\n"
         for i in matrix:
             for j in i:
-                output += "{0:10.3f} ".format(j)
+                output += "{0:20.3f} ".format(j)
             output += "\n"
         output += "}"
         return output
@@ -118,3 +118,23 @@ class Matrix:
         for i in range(len(vector_1)):
             answer[i] = [vector_1[i][0] - vector_2[i][0]]
         return answer
+    @staticmethod
+    def write_matrix(matrix: list, filename: str):
+        with open(filename, "w") as file:
+            text = ""
+            for i in range(len(matrix)):
+                for j in range(len(matrix)):
+                    text += str(matrix[i][j]) + " "
+            file.write(text)
+
+
+    @staticmethod
+    def scan_matrix(filename: str, matrix_size: int):
+        matrix = [[0] * matrix_size for _ in range(matrix_size)]
+        with open(filename, "r") as file:
+            text = file.read().split(" ")
+            for i in range(matrix_size):
+                for j in range(matrix_size):
+                    matrix[i][j] = float(text[matrix_size * i + j])
+        return matrix
+        

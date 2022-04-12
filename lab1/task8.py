@@ -1,6 +1,7 @@
 import math
-from Matrix import *
-from SolveMethods import *
+from re import M
+from Matrix import Matrix
+from SolveMethods import SolveMethods
 from main import *
 
 def task_solution():
@@ -31,10 +32,9 @@ def task_solution():
     full_time_relaxation = 0
     relaxation_difference = MinAvgMax(math.inf, 0, 0)
     relaxation_iter_count = MinAvgMax(math.inf, 0, 0)
-    print()
     for i in range(MATRIX_COUNT):
-        if i % 10 == 0:
-            print("██" * (i // 10), "\r"*(i // 10), end="")
+        # if i % 10 == 0:
+        #     print("██" * (i // 10), "\r"*(i // 10), end="")
         cond = Matrix.condition(A_matrix_list[i])
         if cond > max_condition_value:
             max_condition_value = cond
@@ -99,10 +99,8 @@ def task_solution():
             relaxation_iter_count.max = iter_count
         elif iter_count < relaxation_iter_count.min:
             relaxation_iter_count.min = iter_count
-    print()
 
-    with open("max_condition_matrix.txt", "w") as file:
-        file.write(Matrix.display(A_matrix_list[max_condition_index], "A"))
+    Matrix.write_matrix(A_matrix_list[max_condition_index], "max_condition_matrix.txt")
 
     task8_1 = """------------------
     max_condition_value: {0:10.6f}
@@ -168,7 +166,7 @@ def task_solution():
     ------------------""".format(relaxation_iter_count.min,
                                  relaxation_iter_count.avg / MATRIX_COUNT,
                                  relaxation_iter_count.max)
-    with open("answers.txt", "w") as file:
+    with open("task8.txt", "w") as file:
         file.write(task8_1)
         file.write(task8_2)
         file.write(task8_3)

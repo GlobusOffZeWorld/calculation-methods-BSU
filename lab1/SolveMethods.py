@@ -73,7 +73,6 @@ class SolveMethods:
 
     @staticmethod
     def solve_LUP(args: list, vector):
-# L: list, U: list, P: list, vector: list
         L = args[0]
         U = args[1]
         P = args[2]
@@ -103,11 +102,12 @@ class SolveMethods:
         return x_current
 
     @staticmethod
-    def LDLt(matrix: list, vector: list):
+    def LDLt(matrix: list):
         matrix_size = len(matrix)
         temp_matrix = Matrix.copy(matrix)
         L = [[0] * matrix_size for _ in range(matrix_size)]
-
+        for i in range(matrix_size):
+            L[i][i] = 1
         for i in range(matrix_size):
             for j in range(i + 1, matrix_size):
                 leader_element = temp_matrix[j][i] / temp_matrix[i][i]
@@ -138,6 +138,7 @@ class SolveMethods:
                 for k in range(i, matrix_size):
                     temp_matrix[j][k] -= temp_matrix[i][k] * leader_element
                 L[j][i] = leader_element
+
         G = [[0] * matrix_size for _ in range(matrix_size)]
         E = [0 for _ in range(matrix_size)]
         for i in range(matrix_size):
