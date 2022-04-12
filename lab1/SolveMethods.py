@@ -199,8 +199,9 @@ class SolveMethods:
         matrix_size = len(matrix)
         x_current = [[1] for _ in range(matrix_size)]
         w = 1 - 14/40
-        eps = 10 ** -15
+        eps = 10 ** -8
         x_prev = []
+        iter_count = 0
         while True:
             norm = 0
             x_prev = Matrix.copy(x_current)
@@ -216,6 +217,9 @@ class SolveMethods:
                 x_current[i] = [sum]
                 if current_norm := math.fabs(x_current[i][0] - x_prev[i][0]) > norm:
                     norm = current_norm
+            iter_count += 1
             if norm < eps:
                 break
-        return x_current
+            if iter_count > 2000:
+                break
+        return x_current, iter_count
