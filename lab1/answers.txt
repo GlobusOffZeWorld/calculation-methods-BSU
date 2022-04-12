@@ -1,0 +1,6 @@
+------------
+max_condition_value:   4.919069
+min_condition_value:   4.565067
+------------------------
+average time to inverse matrix:   0.172499
+------------
