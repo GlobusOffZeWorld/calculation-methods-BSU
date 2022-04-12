@@ -119,9 +119,9 @@ class SolveMethods:
 
         for i in range(matrix_size):
             D[i][i] = temp_matrix[i][i]
-            for j in range(i):
-                D[i][j] = L[i][j]
-                D[j][i] = L[i][j]
+            # for j in range(i):
+            #     D[i][j] = L[i][j]
+            #     D[j][i] = L[i][j]
         return (L, D)
 
     @staticmethod
@@ -179,7 +179,7 @@ class SolveMethods:
     def relaxation(matrix, vector, w):
         matrix_size = len(matrix)
         x_current = [[1] for _ in range(matrix_size)]
-        eps = 10 ** -6
+        eps = 10 ** -16
         x_prev = []
         iter_count = 0
         iteration_values = []
@@ -203,6 +203,6 @@ class SolveMethods:
             iteration_values.append(Matrix.copy(x_current))
             if norm < eps:
                 break
-            if iter_count > 999:
+            if iter_count > 2000:
                 break
         return x_current, iter_count, iteration_values
