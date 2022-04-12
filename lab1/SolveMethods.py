@@ -1,6 +1,7 @@
 import math
 from Matrix import *
 
+
 class SolveMethods:
     def __init__(self) -> None:
         pass
@@ -175,13 +176,13 @@ class SolveMethods:
         return x_current
 
     @staticmethod
-    def relaxation(matrix, vector):
+    def relaxation(matrix, vector, w):
         matrix_size = len(matrix)
         x_current = [[1] for _ in range(matrix_size)]
-        w = 1 - 14/40
         eps = 10 ** -6
         x_prev = []
         iter_count = 0
+        iteration_values = []
         while True:
             norm = 0
             x_prev = Matrix.copy(x_current)
@@ -195,11 +196,13 @@ class SolveMethods:
                 sum /= matrix[i][i]
                 sum += (1 - w) * x_prev[i][0]
                 x_current[i] = [sum]
-                if current_norm := math.fabs(x_current[i][0] - x_prev[i][0]) > norm:
+                if (current_norm := math.fabs(x_current[i][0] - x_prev[i][0])) > norm:
                     norm = current_norm
+
             iter_count += 1
+            iteration_values.append(Matrix.copy(x_current))
             if norm < eps:
                 break
-            if iter_count > 1000:
+            if iter_count > 999:
                 break
-        return x_current, iter_count
+        return x_current, iter_count, iteration_values

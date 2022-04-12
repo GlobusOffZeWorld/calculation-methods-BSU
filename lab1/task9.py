@@ -1,5 +1,5 @@
-from Matrix import Matrix
-from SolveMethods import SolveMethods
+from service import *
+
 
 def task_solution():
     n = 14
@@ -44,11 +44,11 @@ def task_solution():
     A1_LDLt = SolveMethods.LDLt(A1)
     A2_LDLt = SolveMethods.LDLt(A2)
 
-    x1_relaxation, iter_count_1 = SolveMethods.relaxation(A1, b1)
-    x2_relaxation, iter_count_2 = SolveMethods.relaxation(A2, b2)
+    x1_relaxation, iter_count_1, iteration_values_1 = SolveMethods.relaxation(A1, b1, 1 - 14/40)
+    x2_relaxation, iter_count_2, iteration_values_2 = SolveMethods.relaxation(A2, b2, 1 - 14/40)
 
     x1_gauss_norm_difference = Matrix.cubic_norm(
-        Matrix.vector_difference(x1_gauss, y1))
+        Matrix.vector_difference(x1_gauss, y1))/Matrix.cubic_norm(y1)
     x2_gauss_norm_difference = Matrix.cubic_norm(
         Matrix.vector_difference(x2_gauss, y2))/Matrix.cubic_norm(y2)
     task9_3 = """------------------------------------
@@ -61,7 +61,7 @@ def task_solution():
     ------------------------------------""".format(x1_gauss_norm_difference, x2_gauss_norm_difference)
 
     x1_LUP_solution_norm_difference = Matrix.cubic_norm(
-        Matrix.vector_difference(x1_LUP_solution, y1))
+        Matrix.vector_difference(x1_LUP_solution, y1))/Matrix.cubic_norm(y1)
     x2_LUP_solution_norm_difference = Matrix.cubic_norm(
         Matrix.vector_difference(x2_LUP_solution, y2))/Matrix.cubic_norm(y2)
 
@@ -85,7 +85,7 @@ def task_solution():
     ------------------------------------""".format(x1_LUP_solution_norm_difference, x2_LUP_solution_norm_difference)
 
     x1_square_root_norm_difference = Matrix.cubic_norm(
-        Matrix.vector_difference(x1_square_root, y1))
+        Matrix.vector_difference(x1_square_root, y1))/Matrix.cubic_norm(y1)
     x2_square_root_norm_difference = Matrix.cubic_norm(
         Matrix.vector_difference(x2_square_root, y2))/Matrix.cubic_norm(y2)
 
@@ -109,7 +109,7 @@ def task_solution():
     ------------------------------------""".format(x1_square_root_norm_difference, x2_square_root_norm_difference)
 
     x1_relaxation_norm_difference = Matrix.cubic_norm(
-        Matrix.vector_difference(x1_relaxation, y1))
+        Matrix.vector_difference(x1_relaxation, y1))/Matrix.cubic_norm(y1)
     x2_relaxation_norm_difference = Matrix.cubic_norm(
         Matrix.vector_difference(x2_relaxation, y2))/Matrix.cubic_norm(y2)
 
@@ -118,7 +118,7 @@ def task_solution():
     relative difference norm to solve A2 by relaxation {1:.3e}
     ------------------------------------""".format(x1_relaxation_norm_difference, x2_relaxation_norm_difference)
 
-    with open("task9.txt", "w") as file:
+    with open("doc/task9.txt", "w") as file:
         file.write(Matrix.display(A1, "A1")+"\n")
         file.write(Matrix.display(y1, "y1")+"\n")
         file.write(Matrix.display(b1, "b1")+"\n")

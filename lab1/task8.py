@@ -1,8 +1,5 @@
-import math
-from re import M
-from Matrix import Matrix
-from SolveMethods import SolveMethods
-from main import *
+from service import *
+
 
 def task_solution():
     MATRIX_SIZE = 256
@@ -48,7 +45,8 @@ def task_solution():
             SolveMethods.gauss, A_matrix_list[i], b_matrix_list[i])
         full_time_gauss += ttr_gauss
 
-        temp1 = Matrix.cubic_norm(Matrix.vector_difference(x_gauss, y_matrix_list[i]))
+        temp1 = Matrix.cubic_norm(
+            Matrix.vector_difference(x_gauss, y_matrix_list[i]))
         gauss_difference.avg += temp1
         if temp1 > gauss_difference.max:
             gauss_difference.max = temp1
@@ -82,8 +80,8 @@ def task_solution():
         elif temp3 < square_root_difference.min:
             square_root_difference.min = temp3
 
-        ttr_relaxation, (x_relaxation, iter_count) = time_to_run(
-            SolveMethods.relaxation, A_matrix_list[i], b_matrix_list[i])
+        ttr_relaxation, (x_relaxation, iter_count, iteration_values) = time_to_run(
+            SolveMethods.relaxation, A_matrix_list[i], b_matrix_list[i], 1 - 14/40)
         full_time_relaxation += ttr_relaxation
 
         temp4 = Matrix.cubic_norm(Matrix.vector_difference(
@@ -100,7 +98,8 @@ def task_solution():
         elif iter_count < relaxation_iter_count.min:
             relaxation_iter_count.min = iter_count
 
-    Matrix.write_matrix(A_matrix_list[max_condition_index], "max_condition_matrix.txt")
+    Matrix.write_matrix(
+        A_matrix_list[max_condition_index], "doc/max_condition_matrix.txt")
 
     task8_1 = """------------------
     max_condition_value: {0:10.6f}
@@ -166,7 +165,7 @@ def task_solution():
     ------------------""".format(relaxation_iter_count.min,
                                  relaxation_iter_count.avg / MATRIX_COUNT,
                                  relaxation_iter_count.max)
-    with open("task8.txt", "w") as file:
+    with open("doc/task8.txt", "w") as file:
         file.write(task8_1)
         file.write(task8_2)
         file.write(task8_3)
