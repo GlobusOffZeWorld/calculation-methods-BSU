@@ -5,16 +5,16 @@ Matrix: A1{
               -2.000               -4.000              -14.000              206.000 
 }
 Matrix: y1{
-              11.255 
-               1.406 
-               2.407 
-             -11.274 
+               6.873 
+               0.478 
+              -5.043 
+              -7.939 
 }
 Matrix: b1{
-            2413.231 
-            -129.259 
-             623.551 
-           -2384.239 
+            1477.231 
+              70.761 
+            -929.242 
+           -1580.438 
 }
 
 
@@ -29,24 +29,24 @@ Matrix: A2{
        -34412181.000        195274372.000       3489856646.000      35349218632.000      -3982412542.000      -2131512557.000     -37350692759.000       1460420132.000 
 }
 Matrix: y2{
-              -7.328 
-             -10.285 
-               2.976 
-               5.573 
-              -9.154 
-               5.956 
-              -8.030 
-              -1.480 
+              -3.593 
+               1.446 
+              -1.520 
+              -7.954 
+              -5.334 
+               3.208 
+               3.037 
+               5.898 
 }
 Matrix: b2{
-     46351373357.393 
-    454643083591.714 
-   5394612950733.640 
-  53880121926872.656 
-  -3519983209136.913 
-  -4903025904855.250 
- -54812496542786.664 
-    527167857568.820 
+    -36753563797.848 
+   -366624627888.583 
+  -4302400388140.937 
+ -42981062916321.609 
+   2397471454179.514 
+   3950557041441.702 
+  43634535734537.211 
+   -376466908760.816 
 }
 ------------------------------------
     LUP decomposition for A1: 
@@ -154,15 +154,15 @@ Matrix: b2{
     A1 condition1.314e+00
     A2 condition 5.851e+17
     ------------------------------------------------------------------------
-    relative difference norm to solve A1 by gauss 3.939e-17
-    relative difference norm to solve A2 by gauss 6.792e-01
+    relative difference norm to solve A1 by gauss 2.238e-16
+    relative difference norm to solve A2 by gauss 1.574e+00
     ------------------------------------------------------------------------
-    relative difference norm to solve A1 by LUP 3.939e-17
-    relative difference norm to solve A2 by LUP 1.462e-01
+    relative difference norm to solve A1 by LUP 2.238e-16
+    relative difference norm to solve A2 by LUP 3.097e-02
     ------------------------------------------------------------------------
-    relative difference norm to solve A1 by square_root 1.576e-16
-    relative difference norm to solve A2 by square_root 3.033e+00
+    relative difference norm to solve A1 by square_root 1.119e-16
+    relative difference norm to solve A2 by square_root 8.696e-01
     ------------------------------------------------------------------------
-    relative difference norm to solve A1 by relaxation 1.576e-16
-    relative difference norm to solve A2 by relaxation 8.648e+00
+    relative difference norm to solve A1 by relaxation 3.356e-16
+    relative difference norm to solve A2 by relaxation 8.756e+00
     ------------------------------------

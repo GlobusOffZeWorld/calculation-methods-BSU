@@ -1,34 +1,34 @@
 ------------------
-    max_condition_value:   4.941172
-    min_condition_value:   4.560255
+    max_condition_value:   4.941571
+    min_condition_value:   4.576597
     ------------------------------------
-    average time to inverse matrix:   0.174826 s
+    average time to inverse matrix:   0.162970 s
     ------------------------------------
-    min difference norm to solve by gauss: 1.776e-14
-    avg difference norm to solve by gauss: 2.598e-14
-    max difference norm to solve by gauss: 3.730e-14
+    min difference norm to solve by gauss: 1.865e-14
+    avg difference norm to solve by gauss: 2.546e-14
+    max difference norm to solve by gauss: 3.908e-14
 
-    min difference norm to solve by LUP_solution: 1.776e-14
-    avg difference norm to solve by LUP_solution: 2.598e-14
-    max difference norm to solve by LUP_solution: 3.730e-14
+    min difference norm to solve by LUP_solution: 1.865e-14
+    avg difference norm to solve by LUP_solution: 2.546e-14
+    max difference norm to solve by LUP_solution: 3.908e-14
 
-    min difference norm to solve by square_root: 1.865e-14
-    avg difference norm to solve by square_root: 2.666e-14
-    max difference norm to solve by square_root: 3.908e-14
+    min difference norm to solve by square_root: 1.776e-14
+    avg difference norm to solve by square_root: 2.558e-14
+    max difference norm to solve by square_root: 4.086e-14
 
     min difference norm to solve by relaxation: 1.066e-14
-    avg difference norm to solve by relaxation: 1.739e-14
-    max difference norm to solve by relaxation: 2.842e-14
+    avg difference norm to solve by relaxation: 1.945e-14
+    max difference norm to solve by relaxation: 4.441e-14
     ------------------------------------
-    average time to solve by gauss:   0.027817 s
+    average time to solve by gauss:   0.026016 s
     ------------------------------------
-    average time to find LUP:   0.047227 s
+    average time to find LUP:   0.043730 s
     ------------------------------------
-    average time to solve by LUPx = b:   0.000416 s
+    average time to solve by LUPx = b:   0.000363 s
     ------------------------------------
-    average time to solve by relaxation:   0.112473 s
+    average time to solve by relaxation:   0.066390 s
     ------------------------------------
     min iter_count to solve by relaxation:  45.000000
-    avg iter_count to solve by relaxation: 224.610000
+    avg iter_count to solve by relaxation: 146.310000
     max iter_count to solve by relaxation: 2001.000000
     ------------------
