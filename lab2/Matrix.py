@@ -13,7 +13,7 @@ class Matrix:
         output += "Matrix: " + matrix_name + "{\n"
         for i in matrix:
             for j in i:
-                output += "{0:5.1f} ".format(j)
+                output += "{0:5.3f} ".format(j)
             output += "\n"
         output += "}"
         return output
@@ -30,6 +30,23 @@ class Matrix:
     @staticmethod
     def copy(matrix: list):
         return [[matrix[i][j] for j in range(len(matrix[i]))] for i in range(len(matrix))]
+
+    @staticmethod
+    def sum(matrix_1: list, matrix_2: list):
+        result_matrix = Matrix.copy(matrix_1)
+        for i in range(len(matrix_1)):
+            for j in range(len(matrix_1[i])):
+                result_matrix[i][j] += matrix_2[i][j]
+        return result_matrix
+
+    @staticmethod
+    def scalar_multiply(matrix_1: list, lyamda: list):
+        result_matrix = Matrix.copy(matrix_1)
+        for i in range(len(matrix_1)):
+            for j in range(len(matrix_1[i])):
+                result_matrix[i][j] *= lyamda
+        return result_matrix
+
 
     @staticmethod
     def dot(matrix_1: list, matrix_2: list):
@@ -53,6 +70,16 @@ class Matrix:
             if row_sum > norm:
                 norm = row_sum
         return norm
+
+    @staticmethod
+    def cubic_norm_index(vector: list):
+        norm = vector[0][0]
+        index = 0
+        for i in range(len(vector)):
+            if math.fabs(vector[i][0]) > norm:
+                norm = vector[i][0]
+                index = i
+        return index
 
     @staticmethod
     def fill(matrix_size: int):
@@ -137,4 +164,48 @@ class Matrix:
                 for j in range(matrix_size):
                     matrix[i][j] = float(text[matrix_size * i + j])
         return matrix
+    
+    @staticmethod 
+    def normalize(matrix: list):
+        norm = Matrix.cubic_norm(matrix)
+        result_matrix = Matrix.copy(matrix)
+        for i in range(len(result_matrix)):
+            for j in range(len(result_matrix[i])):
+                result_matrix[i][j] /= norm
+        return result_matrix
         
+    @staticmethod
+    def max_eigen_value(matrix: list, y0: list, eps: float):
+        ITER_COUNT = 100
+        first_case = True
+        answer_vectors = []
+        y = Matrix.dot(matrix, y0)
+        answer_vectors.append(y)
+        prev_y_norm_index = Matrix.cubic_norm_index(y0)
+        lyamda = answer_vectors[0][prev_y_norm_index][0] / y0[prev_y_norm_index][0]
+
+        for i in range(1, ITER_COUNT):
+            prev_y_norm_index = Matrix.cubic_norm_index(y)
+            y = Matrix.dot(matrix, y)
+            answer_vectors.append(y)
+            lyamdai = answer_vectors[i][prev_y_norm_index][0] / answer_vectors[i - 1][prev_y_norm_index][0]
+
+            if math.fabs(lyamdai - lyamda) < eps:
+                return lyamdai, Matrix.normalize(answer_vectors[i])
+            lyamda = lyamdai
+        # return lyamda, Matrix.normalize(Matrix.sum(answer_vectors[len(answer_vectors) - 1], Matrix.scalar_multiply(answer_vectors[len(answer_vectors) - 2], lyamdai)))
+        
+        prev_y_norm_index = Matrix.cubic_norm_index(y0)
+        lyamda = math.sqrt(math.fabs(answer_vectors[1][prev_y_norm_index][0] / y0[prev_y_norm_index][0]))
+
+        for i in range(2, len(answer_vectors)):
+            prev_y_norm_index = Matrix.cubic_norm_index(answer_vectors[i - 2])
+            lyamdai = math.sqrt(math.fabs(answer_vectors[i][prev_y_norm_index][0] / answer_vectors[i - 2][prev_y_norm_index][0]))
+            if math.fabs(lyamdai - lyamda) < eps:
+                return lyamdai, Matrix.normalize(Matrix.sum(answer_vectors[len(answer_vectors) - 1], Matrix.scalar_multiply(answer_vectors[len(answer_vectors) - 2], lyamdai)))
+            lyamda = lyamdai
+        
+        return lyamda, Matrix.normalize(Matrix.sum(answer_vectors[len(answer_vectors) - 1], Matrix.scalar_multiply(answer_vectors[len(answer_vectors) - 2], lyamdai)))
+
+
+
