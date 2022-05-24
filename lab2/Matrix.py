@@ -1,5 +1,6 @@
 import random
 import math
+import numpy as np
 
 VARIANT_NUMBER = 2**(14 / 4)
 
