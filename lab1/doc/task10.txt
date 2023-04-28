@@ -1,0 +1,13 @@
+------------------------------------
+    relative difference norm A1(started) by LUP 2.042e-15
+    relative difference norm A2(started) by LUP 4.486e-01
+    ------------------------------------------------------------------------
+    relative difference norm A1 with b1 += 0.0001 by LUP 7.680e-09
+    relative difference norm A2 with b2 += 0.0001 by LUP 2.557e-02
+    ------------------------------------------------------------------------
+    relative difference norm A1 with b1 *=1.00001 by LUP 1.001e-05
+    relative difference norm A2 with b2 *=1.00001 by LUP 8.257e-02
+    ------------------------------------------------------------------------
+    relative difference norm A1 with b1 += 100 by LUP 1.198e-02
+    relative difference norm A2 with b1 += 100 by LUP 6.166e+01
+    ------------------------------------
